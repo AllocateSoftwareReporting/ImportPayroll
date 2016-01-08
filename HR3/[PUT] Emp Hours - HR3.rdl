@@ -46,7 +46,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>record key</Value>
+                              <Value>import_EMPHR</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
@@ -463,7 +463,6 @@
                         <PaddingBottom>2pt</PaddingBottom>
                       </Style>
                     </Textbox>
-                    <rd:Selected>true</rd:Selected>
                   </CellContents>
                 </TablixCell>
                 <TablixCell>
@@ -609,9 +608,6 @@
         <TablixRowHierarchy>
           <TablixMembers>
             <TablixMember>
-              <Visibility>
-                <Hidden>true</Hidden>
-              </Visibility>
               <KeepWithGroup>After</KeepWithGroup>
             </TablixMember>
             <TablixMember>

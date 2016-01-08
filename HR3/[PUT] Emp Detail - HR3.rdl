@@ -64,7 +64,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>record key</Value>
+                              <Value>import_EMPDE</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
@@ -988,9 +988,6 @@
         <TablixRowHierarchy>
           <TablixMembers>
             <TablixMember>
-              <Visibility>
-                <Hidden>true</Hidden>
-              </Visibility>
               <KeepWithGroup>After</KeepWithGroup>
             </TablixMember>
             <TablixMember>
