@@ -332,7 +332,7 @@
     <DataSet Name="DataSet1">
       <Query>
         <DataSourceName>DataSource1</DataSourceName>
-        <CommandText>SELECT 'employee_date_range' AS record_key, EmpNo AS emp_no, HiredDate AS eff_from_date, ISNULL((SELECT MIN(DATEADD(dd, -1, e.TermDate)) FROM [duncan-pc].[HR3].dbo.EMPLOYEE_EXPORT_V e WHERE e.EmpNo = EmpNo AND HiredDate &lt; e.HiredDate AND TermDate &gt; e.TermDate GROUP BY e.EmpNo, e.HiredDate, e.TermDate), TermDate) AS eff_to_date FROM [JRSQL02].[JRHR3payroll].dbo.EMPLOYEE_EXPORT_V</CommandText>
+        <CommandText>SELECT 'employee_date_range' AS record_key, EmpNo AS emp_no, HiredDate AS eff_from_date, ISNULL((SELECT MIN(DATEADD(dd, -1, e.TermDate)) FROM [JRSQL02].[JRHR3payroll].dbo.EMPLOYEE_EXPORT_V e WHERE e.EmpNo = EmpNo AND HiredDate &lt; e.HiredDate AND TermDate &gt; e.TermDate GROUP BY e.EmpNo, e.HiredDate, e.TermDate), TermDate) AS eff_to_date FROM [JRSQL02].[JRHR3payroll].dbo.EMPLOYEE_EXPORT_V</CommandText>
       </Query>
       <Fields>
         <Field Name="record_key">
