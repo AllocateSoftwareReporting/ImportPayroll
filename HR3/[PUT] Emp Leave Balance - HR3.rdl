@@ -641,6 +641,9 @@
         <TablixRowHierarchy>
           <TablixMembers>
             <TablixMember>
+              <Visibility>
+                <Hidden>true</Hidden>
+              </Visibility>
               <KeepWithGroup>After</KeepWithGroup>
             </TablixMember>
             <TablixMember>

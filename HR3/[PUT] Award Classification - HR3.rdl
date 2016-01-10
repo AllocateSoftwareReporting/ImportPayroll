@@ -602,6 +602,9 @@
         <TablixRowHierarchy>
           <TablixMembers>
             <TablixMember>
+              <Visibility>
+                <Hidden>true</Hidden>
+              </Visibility>
               <KeepWithGroup>After</KeepWithGroup>
             </TablixMember>
             <TablixMember>
@@ -639,7 +642,6 @@
       <ConnectionProperties>
         <DataProvider>SQL</DataProvider>
         <ConnectString>Data Source=RICKY-LPTP;Initial Catalog=JRDutyFree</ConnectString>
-        <Prompt>Specify a user name and password for data source DataSource1:</Prompt>
       </ConnectionProperties>
       <rd:SecurityType>DataBase</rd:SecurityType>
       <rd:DataSourceID>02cd5fcf-666d-43e8-a21d-02c7290dcf7d</rd:DataSourceID>
@@ -649,9 +651,7 @@
     <DataSet Name="DataSet1">
       <Query>
         <DataSourceName>DataSource1</DataSourceName>
-        <CommandText>Select 'import_CLASS' as record_key ,1 as record_no,column03 as payroll_ref,
-column05 as award ,'' as title,'' as grade ,'' as level ,column03 as classification_code,column02 as 
-classification_desc From gi_template_header where Column02   IS NOT NULL</CommandText>
+        <CommandText>select 'import_CLASS' as record_key ,1 as record_no,column03 as payroll_ref, column05 as award ,'' as title,'' as grade ,'' as level ,column03 as classification_code,column02 as classification_desc From gi_template_header where Column02 IS NOT NULL</CommandText>
       </Query>
       <Fields>
         <Field Name="record_key">
