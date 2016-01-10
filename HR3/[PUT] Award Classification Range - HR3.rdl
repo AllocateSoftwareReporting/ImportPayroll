@@ -591,7 +591,7 @@
     <DataSet Name="import_CLRAT">
       <Query>
         <DataSourceName>DataSource2</DataSourceName>
-        <CommandText>SELECT DISTINCT 'import_CLRAT' AS 'record_key', 1 AS 'record_no', v.Column20 AS 'award', CASE WHEN a.payroll_ref IS NULL THEN 'SALARY' ELSE a.payroll_ref END AS 'classification', v.Column39 AS 'employment_type', v1.update_date AS 'eff_from_date', '2049-01-01' AS 'eff_to_date', CONVERT(numeric(30, 5), ISNULL(v1.StdRate, 0)) AS 'rate' FROM gi_employee_master AS v LEFT OUTER JOIN award_classification AS a ON v.Column22 = a.award_classification_desc COLLATE DATABASE_DEFAULT INNER JOIN [JRSQL02].[JRHR3payroll].dbo.template_header AS v1 ON v.Column21 = CAST(v1.Template_header_ID AS varchar(150)) COLLATE DATABASE_DEFAULT WHERE (v.Column20 IS NOT NULL) AND (v.Column20 &lt;&gt; '') AND (v.Column20 &lt;&gt; 'NULL')</CommandText>
+        <CommandText>SELECT DISTINCT 'import_CLRAT' AS 'record_key', 1 AS 'record_no', v.Column20 AS 'award', CASE WHEN a.payroll_ref IS NULL THEN 'INDV' ELSE a.payroll_ref END AS 'classification', v.Column39 AS 'employment_type', v1.update_date AS 'eff_from_date', '2049-01-01' AS 'eff_to_date', CONVERT(numeric(30, 5), ISNULL(v1.StdRate, 0)) AS 'rate' FROM gi_employee_master AS v LEFT OUTER JOIN award_classification AS a ON v.Column22 = a.award_classification_desc COLLATE DATABASE_DEFAULT INNER JOIN [JRSQL02].[JRHR3payroll].dbo.template_header AS v1 ON v.Column21 = CAST(v1.Template_header_ID AS varchar(150)) COLLATE DATABASE_DEFAULT WHERE (v.Column20 IS NOT NULL) AND (v.Column20 &lt;&gt; '') AND (v.Column20 &lt;&gt; 'NULL')</CommandText>
       </Query>
       <Fields>
         <Field Name="record_no">
