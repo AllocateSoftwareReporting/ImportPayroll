@@ -492,7 +492,6 @@
                         <PaddingBottom>2pt</PaddingBottom>
                       </Style>
                     </Textbox>
-                    <rd:Selected>true</rd:Selected>
                   </CellContents>
                 </TablixCell>
                 <TablixCell>
@@ -594,7 +593,8 @@
     <DataSet Name="DataSet1">
       <Query>
         <DataSourceName>DataSource1</DataSourceName>
-        <CommandText>Select 'import_EMPCC' as record_key,1 as record_no,giroemp.Column01 as emp_no,giroemp.Column18 as company_code,giroemp.Column17 as cost_center ,
+        <CommandText>Select 'import_EMPCC' as record_key,1 as record_no,
+CASE WHEN isnumeric(giroemp.Column01) = 1 THEN cast(cast(giroemp.Column01 AS decimal(20)) AS Varchar(150)) ELSE substring(giroemp.Column01, patindex('%[^0]%', giroemp.Column01), 150) END as emp_no,giroemp.Column18 as company_code,giroemp.Column17 as cost_center ,
 giroemp.Column30 as eff_from_date ,giroemp.Column31 as eff_to_date,1.0 as percentage
 from gi_ROSTERONEMP giroemp 
 where giroemp.Column31 &gt; giroemp.Column30
