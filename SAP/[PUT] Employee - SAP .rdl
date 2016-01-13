@@ -376,10 +376,31 @@
         <CommandText>SELECT DISTINCT 
                          'import_EMPMA' AS 'record_key', 1 AS 'record_no', CASE WHEN ISNUMERIC(v.Column01) = 1 THEN CAST(CAST(v.Column01 AS decimal(20)) AS Varchar(150)) 
                          ELSE SUBSTRING(v.Column01, PATINDEX('%[^0]%', v.Column01), 150) END AS 'emp_no', ISNULL(tt.payroll_ref, v.Column02) AS 'title_type_ref', 
-                         SUBSTRING(UPPER(v.Column03), 1, 1) + SUBSTRING(LOWER(v.Column03), 2, 150) AS 'first_name', SUBSTRING(UPPER(v.Column04), 1, 1) 
-                         + SUBSTRING(LOWER(v.Column04), 2, 150) AS 'surname', SUBSTRING(UPPER(v.Column03), 1, 1) + SUBSTRING(LOWER(v.Column03), 2, 150) AS 'known_as', 
-                         CONVERT(datetime, v.Column05, 103) AS 'eff_from_date', CONVERT(datetime, CASE WHEN v.Column06 = '00/00/0000' THEN '01/01/2049' ELSE v.Column06 END, 
-                         103) AS 'eff_to_date'
+                         CASE WHEN v.Column03 LIKE '%-%' THEN Stuff(SUBSTRING(UPPER(v.Column03), 1, 1) + SUBSTRING(LOWER(v.Column03), 2, 150), CharIndex('-', 
+                         SUBSTRING(UPPER(v.Column03), 1, 1) + SUBSTRING(LOWER(v.Column03), 2, 150)) + 1, 1, Upper(Substring(SUBSTRING(UPPER(v.Column03), 1, 1) 
+                         + SUBSTRING(LOWER(v.Column03), 2, 150), CharIndex('-', SUBSTRING(UPPER(v.Column03), 1, 1) + SUBSTRING(LOWER(v.Column03), 2, 150)) + 1, 1))) 
+                         WHEN v.Column03 LIKE '%''%' THEN Stuff(SUBSTRING(UPPER(v.Column03), 1, 1) + SUBSTRING(LOWER(v.Column03), 2, 150), CharIndex('''', 
+                         SUBSTRING(UPPER(v.Column03), 1, 1) + SUBSTRING(LOWER(v.Column03), 2, 150)) + 1, 1, Upper(Substring(SUBSTRING(UPPER(v.Column03), 1, 1) 
+                         + SUBSTRING(LOWER(v.Column03), 2, 150), CharIndex('''', SUBSTRING(UPPER(v.Column03), 1, 1) + SUBSTRING(LOWER(v.Column03), 2, 150)) + 1, 1))) 
+                         ELSE SUBSTRING(UPPER(v.Column03), 1, 1) + SUBSTRING(LOWER(v.Column03), 2, 150) END AS 'first_name', 
+                         CASE WHEN v.Column04 LIKE '%-%' THEN Stuff(SUBSTRING(UPPER(v.Column04), 1, 1) + SUBSTRING(LOWER(v.Column04), 2, 150), CharIndex('-', 
+                         SUBSTRING(UPPER(v.Column04), 1, 1) + SUBSTRING(LOWER(v.Column04), 2, 150)) + 1, 1, Upper(Substring(SUBSTRING(UPPER(v.Column04), 1, 1) 
+                         + SUBSTRING(LOWER(v.Column04), 2, 150), CharIndex('-', SUBSTRING(UPPER(v.Column04), 1, 1) + SUBSTRING(LOWER(v.Column04), 2, 150)) + 1, 1))) 
+                         WHEN v.Column04 LIKE '%''%' THEN Stuff(SUBSTRING(UPPER(v.Column04), 1, 1) + SUBSTRING(LOWER(v.Column04), 2, 150), CharIndex('''', 
+                         SUBSTRING(UPPER(v.Column04), 1, 1) + SUBSTRING(LOWER(v.Column04), 2, 150)) + 1, 1, Upper(Substring(SUBSTRING(UPPER(v.Column03), 1, 1) 
+                         + SUBSTRING(LOWER(v.Column04), 2, 150), CharIndex('''', SUBSTRING(UPPER(v.Column04), 1, 1) + SUBSTRING(LOWER(v.Column04), 2, 150)) + 1, 1))) 
+                         WHEN v.Column04 LIKE '%Mc %' THEN Stuff(SUBSTRING(UPPER(v.Column04), 1, 1) + SUBSTRING(LOWER(v.Column04), 2, 150), CharIndex('Mc ', 
+                         SUBSTRING(UPPER(v.Column04), 1, 1) + SUBSTRING(LOWER(v.Column04), 2, 150)) + 3, 1, Upper(Substring(SUBSTRING(UPPER(v.Column03), 1, 1) 
+                         + SUBSTRING(LOWER(v.Column04), 2, 150), CharIndex('Mc ', SUBSTRING(UPPER(v.Column04), 1, 1) + SUBSTRING(LOWER(v.Column04), 2, 150)) + 3, 1))) 
+                         ELSE SUBSTRING(UPPER(v.Column04), 1, 1) + SUBSTRING(LOWER(v.Column04), 2, 150) END AS 'surname', 
+                         CASE WHEN v.Column03 LIKE '%-%' THEN Stuff(SUBSTRING(UPPER(v.Column03), 1, 1) + SUBSTRING(LOWER(v.Column03), 2, 150), CharIndex('-', 
+                         SUBSTRING(UPPER(v.Column03), 1, 1) + SUBSTRING(LOWER(v.Column03), 2, 150)) + 1, 1, Upper(Substring(SUBSTRING(UPPER(v.Column03), 1, 1) 
+                         + SUBSTRING(LOWER(v.Column03), 2, 150), CharIndex('-', SUBSTRING(UPPER(v.Column03), 1, 1) + SUBSTRING(LOWER(v.Column03), 2, 150)) + 1, 1))) 
+                         WHEN v.Column03 LIKE '%''%' THEN Stuff(SUBSTRING(UPPER(v.Column03), 1, 1) + SUBSTRING(LOWER(v.Column03), 2, 150), CharIndex('''', 
+                         SUBSTRING(UPPER(v.Column03), 1, 1) + SUBSTRING(LOWER(v.Column03), 2, 150)) + 1, 1, Upper(Substring(SUBSTRING(UPPER(v.Column03), 1, 1) 
+                         + SUBSTRING(LOWER(v.Column03), 2, 150), CharIndex('''', SUBSTRING(UPPER(v.Column03), 1, 1) + SUBSTRING(LOWER(v.Column03), 2, 150)) + 1, 1))) 
+                         ELSE SUBSTRING(UPPER(v.Column03), 1, 1) + SUBSTRING(LOWER(v.Column03), 2, 150) END AS 'known_as', CONVERT(datetime, v.Column05, 103) 
+                         AS 'eff_from_date', CONVERT(datetime, CASE WHEN v.Column06 = '00/00/0000' THEN '01/01/2049' ELSE v.Column06 END, 103) AS 'eff_to_date'
 FROM            gi_ROSTERONEMP AS v LEFT OUTER JOIN
                          title_type AS tt ON v.Column02 = tt.payroll_ref COLLATE DATABASE_DEFAULT</CommandText>
       </Query>
