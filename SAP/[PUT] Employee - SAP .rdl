@@ -392,17 +392,22 @@
                          WHEN v.Column04 LIKE '%Mc %' THEN Stuff(SUBSTRING(UPPER(v.Column04), 1, 1) + SUBSTRING(LOWER(v.Column04), 2, 150), CharIndex('Mc ', 
                          SUBSTRING(UPPER(v.Column04), 1, 1) + SUBSTRING(LOWER(v.Column04), 2, 150)) + 3, 1, Upper(Substring(SUBSTRING(UPPER(v.Column03), 1, 1) 
                          + SUBSTRING(LOWER(v.Column04), 2, 150), CharIndex('Mc ', SUBSTRING(UPPER(v.Column04), 1, 1) + SUBSTRING(LOWER(v.Column04), 2, 150)) + 3, 1))) 
-                         ELSE SUBSTRING(UPPER(v.Column04), 1, 1) + SUBSTRING(LOWER(v.Column04), 2, 150) END AS 'surname', 
-                         CASE WHEN v.Column03 LIKE '%-%' THEN Stuff(SUBSTRING(UPPER(v.Column03), 1, 1) + SUBSTRING(LOWER(v.Column03), 2, 150), CharIndex('-', 
+                         ELSE SUBSTRING(UPPER(v.Column04), 1, 1) + SUBSTRING(LOWER(v.Column04), 2, 150) END AS 'surname', CASE WHEN EXISTS
+                             (SELECT        1
+                               FROM            config_system cs
+                               WHERE        cs.config_system_type_id = 91 AND CONVERT(varchar(1), cs.config_value) = 'Y') 
+                         THEN CASE WHEN v.Column03 LIKE '%-%' THEN Stuff(SUBSTRING(UPPER(v.Column03), 1, 1) + SUBSTRING(LOWER(v.Column03), 2, 150), CharIndex('-', 
                          SUBSTRING(UPPER(v.Column03), 1, 1) + SUBSTRING(LOWER(v.Column03), 2, 150)) + 1, 1, Upper(Substring(SUBSTRING(UPPER(v.Column03), 1, 1) 
                          + SUBSTRING(LOWER(v.Column03), 2, 150), CharIndex('-', SUBSTRING(UPPER(v.Column03), 1, 1) + SUBSTRING(LOWER(v.Column03), 2, 150)) + 1, 1))) 
                          WHEN v.Column03 LIKE '%''%' THEN Stuff(SUBSTRING(UPPER(v.Column03), 1, 1) + SUBSTRING(LOWER(v.Column03), 2, 150), CharIndex('''', 
                          SUBSTRING(UPPER(v.Column03), 1, 1) + SUBSTRING(LOWER(v.Column03), 2, 150)) + 1, 1, Upper(Substring(SUBSTRING(UPPER(v.Column03), 1, 1) 
                          + SUBSTRING(LOWER(v.Column03), 2, 150), CharIndex('''', SUBSTRING(UPPER(v.Column03), 1, 1) + SUBSTRING(LOWER(v.Column03), 2, 150)) + 1, 1))) 
-                         ELSE SUBSTRING(UPPER(v.Column03), 1, 1) + SUBSTRING(LOWER(v.Column03), 2, 150) END AS 'known_as', CONVERT(datetime, v.Column05, 103) 
-                         AS 'eff_from_date', CONVERT(datetime, CASE WHEN v.Column06 = '00/00/0000' THEN '01/01/2049' ELSE v.Column06 END, 103) AS 'eff_to_date'
+                         ELSE SUBSTRING(UPPER(v.Column03), 1, 1) + SUBSTRING(LOWER(v.Column03), 2, 150) END ELSE e.known_as END AS 'known_as', CONVERT(datetime, 
+                         v.Column05, 103) AS 'eff_from_date', CONVERT(datetime, CASE WHEN v.Column06 = '00/00/0000' THEN '01/01/2049' ELSE v.Column06 END, 103) 
+                         AS 'eff_to_date'
 FROM            gi_ROSTERONEMP AS v LEFT OUTER JOIN
-                         title_type AS tt ON v.Column02 = tt.payroll_ref COLLATE DATABASE_DEFAULT</CommandText>
+                         title_type AS tt ON v.Column02 = tt.payroll_ref COLLATE DATABASE_DEFAULT LEFT OUTER JOIN
+                         emp AS e ON v.Column01 = e.emp_no COLLATE DATABASE_DEFAULT</CommandText>
       </Query>
       <Fields>
         <Field Name="record_key">
