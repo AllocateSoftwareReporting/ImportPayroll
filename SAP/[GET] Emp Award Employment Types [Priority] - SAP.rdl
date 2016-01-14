@@ -386,7 +386,7 @@
     <DataSource Name="DataSource1">
       <ConnectionProperties>
         <DataProvider>SQL</DataProvider>
-        <ConnectString>Data Source=RICKY-LPTP;Initial Catalog=RosterOnDemo</ConnectString>
+        <ConnectString>Data Source=MEL-DNF162S;Initial Catalog=NorthenHealth</ConnectString>
       </ConnectionProperties>
       <rd:SecurityType>DataBase</rd:SecurityType>
       <rd:DataSourceID>64605047-e361-4913-857a-23944cb44d47</rd:DataSourceID>
@@ -405,7 +405,8 @@ FROM emp e,
 emp_award ea,
 employment_type et
 WHERE e.emp_id = ea.emp_id
-AND ea.employment_type_id = et.employment_type_id</CommandText>
+AND ea.employment_type_id = et.employment_type_id
+AND getdate() BETWEEN ea.eff_from_date AND ea.eff_to_date</CommandText>
       </Query>
       <Fields>
         <Field Name="emp_no">

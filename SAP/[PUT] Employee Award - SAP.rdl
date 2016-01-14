@@ -773,7 +773,7 @@
     <DataSource Name="DataSource1">
       <ConnectionProperties>
         <DataProvider>SQL</DataProvider>
-        <ConnectString>Data Source=RICKY-LPTP;Initial Catalog=RosterOnDemo</ConnectString>
+        <ConnectString>Data Source=MEL-DNF162S;Initial Catalog=NorthenHealth</ConnectString>
       </ConnectionProperties>
       <rd:SecurityType>DataBase</rd:SecurityType>
       <rd:DataSourceID>ef7d5e40-3b1f-4129-9036-99536d9a3177</rd:DataSourceID>
@@ -798,7 +798,7 @@ CASE WHEN epr.Column03 IS NOT NULL THEN epr.Column03 ELSE ro.Column16 END AS emp
 CASE WHEN CASE WHEN ISNUMERIC(ro.Column19) &lt;&gt; 1 THEN CAST(0.0 AS numeric(30,2)) ELSE CAST(ro.Column19 AS numeric(30,2)) END = 0.00 THEN 'N' 
 ELSE 'Y' END AS above_award_rate_flg,
 ro.Column19 AS rate
-FROM gi_rosteronemp ro LEFT OUTER JOIN gi_emp_award_emp_types et ON et.Column02 = CASE WHEN ISNUMERIC(ro.Column01) = 1 THEN CAST(CAST(ro.Column01 AS decimal(20)) AS varchar(150)) 
+FROM gi_ROSTERONEMP ro LEFT OUTER JOIN gi_emp_award_emp_types et ON et.Column02 = CASE WHEN ISNUMERIC(ro.Column01) = 1 THEN CAST(CAST(ro.Column01 AS decimal(20)) AS varchar(150)) 
 ELSE SUBSTRING(ro.Column01, PATINDEX('%[^0]%', ro.Column01), 150) END AND dbo.check_valid_date(ro.Column10, 'Y') BETWEEN dbo.check_valid_date(et.Column04, 'Y') AND dbo.check_valid_date(et.Column05, 'N')
 LEFT OUTER JOIN gi_emp_award_payroll_runs epr ON epr.Column02 = CASE WHEN ISNUMERIC(ro.Column01) = 1 THEN CAST(CAST(ro.Column01 AS decimal(20)) AS varchar(150)) 
 ELSE SUBSTRING(ro.Column01, PATINDEX('%[^0]%', epr.Column01), 150) END AND dbo.check_valid_date(ro.Column10, 'Y') BETWEEN dbo.check_valid_date(epr.Column04, 'Y') AND dbo.check_valid_date(epr.Column05, 'N')
@@ -822,7 +822,7 @@ CASE WHEN epr.Column03 IS NOT NULL THEN epr.Column03 ELSE ro.Column16 END AS emp
 CASE WHEN CASE WHEN ISNUMERIC(ro.Column19) &lt;&gt; 1 THEN CAST(0.0 AS numeric(30,2)) ELSE CAST(ro.Column19 AS numeric(30,2)) END = 0.00 THEN 'N'
 ELSE 'Y' END AS above_award_rate_flg,
 ro.Column19 AS rate
-FROM gi_rosteronemp ro LEFT OUTER JOIN gi_emp_award_emp_types et ON et.Column02 = CASE WHEN ISNUMERIC(ro.Column01) = 1 THEN CAST(CAST(ro.Column01 AS decimal(20)) AS varchar(150)) 
+FROM gi_ROSTERONEMP ro LEFT OUTER JOIN gi_emp_award_emp_types et ON et.Column02 = CASE WHEN ISNUMERIC(ro.Column01) = 1 THEN CAST(CAST(ro.Column01 AS decimal(20)) AS varchar(150)) 
 ELSE SUBSTRING(ro.Column01, PATINDEX('%[^0]%', ro.Column01), 150) END AND dbo.check_valid_date(ro.Column10, 'Y') BETWEEN dbo.check_valid_date(et.Column04, 'Y') AND dbo.check_valid_date(et.Column05, 'N')
 LEFT OUTER JOIN gi_emp_award_payroll_runs epr ON epr.Column02 = CASE WHEN ISNUMERIC(ro.Column01) = 1 THEN CAST(CAST(ro.Column01 AS decimal(20)) AS varchar(150)) 
 ELSE SUBSTRING(ro.Column01, PATINDEX('%[^0]%', epr.Column01), 150) END AND dbo.check_valid_date(ro.Column10, 'Y') BETWEEN dbo.check_valid_date(epr.Column04, 'Y') AND dbo.check_valid_date(epr.Column05, 'N')
@@ -848,7 +848,7 @@ CASE WHEN epr.Column03 IS NOT NULL THEN epr.Column03 ELSE ro.Column16 END AS emp
 CASE WHEN CASE WHEN ISNUMERIC(ro.Column19) &lt;&gt; 1 THEN CAST(0.0 AS numeric(30,2)) ELSE CAST(ro.Column19 AS numeric(30,2)) END = 0.00 THEN 'N'
 ELSE 'Y' END AS above_award_rate_flg,
 ro.Column19 AS rate
-FROM gi_rosteronemp ro LEFT OUTER JOIN gi_emp_award_emp_types et ON et.Column02 = CASE WHEN ISNUMERIC(ro.Column01) = 1 THEN CAST(CAST(ro.Column01 AS decimal(20)) AS varchar(150)) 
+FROM gi_ROSTERONEMP ro LEFT OUTER JOIN gi_emp_award_emp_types et ON et.Column02 = CASE WHEN ISNUMERIC(ro.Column01) = 1 THEN CAST(CAST(ro.Column01 AS decimal(20)) AS varchar(150)) 
 ELSE SUBSTRING(ro.Column01, PATINDEX('%[^0]%', ro.Column01), 150) END AND dbo.check_valid_date(ro.Column10, 'Y') BETWEEN dbo.check_valid_date(et.Column04, 'Y') AND dbo.check_valid_date(et.Column05, 'N')
 LEFT OUTER JOIN gi_emp_award_payroll_runs epr ON epr.Column02 = CASE WHEN ISNUMERIC(ro.Column01) = 1 THEN CAST(CAST(ro.Column01 AS decimal(20)) AS varchar(150)) 
 ELSE SUBSTRING(ro.Column01, PATINDEX('%[^0]%', epr.Column01), 150) END AND dbo.check_valid_date(ro.Column10, 'Y') BETWEEN dbo.check_valid_date(epr.Column04, 'Y') AND dbo.check_valid_date(epr.Column05, 'N')

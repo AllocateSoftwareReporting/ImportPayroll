@@ -645,7 +645,7 @@
     <DataSource Name="DataSource1">
       <ConnectionProperties>
         <DataProvider>SQL</DataProvider>
-        <ConnectString>Data Source=RICKY-LPTP;Initial Catalog=RosterOnDemo</ConnectString>
+        <ConnectString>Data Source=MEL-DNF162S;Initial Catalog=NorthenHealth</ConnectString>
       </ConnectionProperties>
       <rd:SecurityType>DataBase</rd:SecurityType>
       <rd:DataSourceID>ef7d5e40-3b1f-4129-9036-99536d9a3177</rd:DataSourceID>
@@ -660,22 +660,22 @@
 CASE WHEN ISNUMERIC(ro.Column01) = 1 THEN CAST(CAST(ro.Column01 AS decimal(20)) AS varchar(150))
 ELSE SUBSTRING(ro.Column01, PATINDEX('%[^0]%', ro.Column01), 150)
 END AS emp_no,
-'' AS employment_type, Column07 AS eff_from_date,
-CASE WHEN dbo.check_valid_date(CASE WHEN ro.Column06 = '00/00/0000' THEN '01/01/2049' ELSE ro.Column06 END, 'N') &lt; dbo.check_valid_date(CASE WHEN ro.Column08 = '31/12/9999' THEN '01/01/2049' ELSE ro.Column08 END, 'N') THEN Column06
-ELSE Column08 END AS eff_to_date,
-CASE WHEN Column12 = 'CS' THEN CAST(0.0 AS numeric(30,2))
-ELSE Column09 END AS min_hrs_week,
-Column09 AS max_hrs_week,
+'' AS employment_type, ro.Column07 AS eff_from_date,
+CASE WHEN dbo.check_valid_date(CASE WHEN ro.Column06 = '00/00/0000' THEN '01/01/2049' ELSE ro.Column06 END, 'N') &lt; dbo.check_valid_date(CASE WHEN ro.Column08 = '31/12/9999' THEN '01/01/2049' ELSE ro.Column08 END, 'N') THEN ro.Column06
+ELSE ro.Column08 END AS eff_to_date,
+CASE WHEN ro.Column12 = 'CS' THEN CAST(0.0 AS numeric(30,2))
+ELSE ro.Column09 END AS min_hrs_week,
+ro.Column09 AS max_hrs_week,
 '8.00' AS hrs_shift
-FROM gi_rosteronemp ro LEFT OUTER JOIN title_type tt ON ro.Column04 = tt.payroll_ref WHERE (Column07 IS NOT NULL OR Column07 != '') AND (Column08 IS NOT NULL OR Column08 != '')
+FROM gi_ROSTERONEMP ro LEFT OUTER JOIN title_type tt ON ro.Column04 = tt.payroll_ref WHERE (ro.Column07 IS NOT NULL OR ro.Column07 != '') AND (ro.Column08 IS NOT NULL OR ro.Column08 != '')
 GROUP BY
 CASE WHEN ISNUMERIC(ro.Column01) = 1 THEN CAST(CAST(ro.Column01 AS decimal(20)) AS Varchar(150))
 ELSE SUBSTRING(ro.Column01, PATINDEX('%[^0]%', ro.Column01), 150) END,
-Column06,
-Column07,
-Column08,
-Column09,
-Column12</CommandText>
+ro.Column06,
+ro.Column07,
+ro.Column08,
+ro.Column09,
+ro.Column12</CommandText>
       </Query>
       <Fields>
         <Field Name="record_no">

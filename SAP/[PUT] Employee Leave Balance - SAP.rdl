@@ -645,7 +645,7 @@
     <DataSource Name="DataSource1">
       <ConnectionProperties>
         <DataProvider>SQL</DataProvider>
-        <ConnectString>Data Source=RICKY-LPTP;Initial Catalog=RosterOnDemo</ConnectString>
+        <ConnectString>Data Source=MEL-DNF162S;Initial Catalog=NorthenHealth</ConnectString>
       </ConnectionProperties>
       <rd:SecurityType>DataBase</rd:SecurityType>
       <rd:DataSourceID>41ca208b-363d-4470-ac8c-73350a846119</rd:DataSourceID>
@@ -657,97 +657,133 @@
         <DataSourceName>DataSource1</DataSourceName>
         <CommandText>SELECT 'import_EMPBA' AS record_key,
 '1' AS record_no,
-CASE WHEN ISNUMERIC(Column01) = 1 THEN CAST(CAST(Column01 AS decimal(20)) AS varchar(150)) 
-ELSE SUBSTRING(Column01, PATINDEX('%[^0]%', Column01), 150) 
+CASE WHEN ISNUMERIC(lve.Column01) = 1 THEN CAST(CAST(lve.Column01 AS decimal(20)) AS varchar(150)) 
+ELSE SUBSTRING(lve.Column01,PATINDEX('%[^0]%',lve.Column01),150) 
 END AS emp_no,
-CASE WHEN Column02 = '10' THEN '0100'
-WHEN Column02 = '12' THEN '0120'
-WHEN Column02 = '22' THEN '0203'
-WHEN Column02 = '24' THEN '0205'
-WHEN Column02 = '25' THEN '0200'
-WHEN Column02 = '26' THEN '0203'
-WHEN Column02 = '50' THEN '0501'
-WHEN Column02 = '51' THEN '0500'
-WHEN Column02 = '57' THEN '0685'
-WHEN Column02 = '73' THEN '0602'
-WHEN Column02 = '74' THEN '0650'
-WHEN Column02 = '75' THEN '0634'
-WHEN Column02 = '76' THEN '0662'
-WHEN Column02 = '77' THEN '0315'
-WHEN Column02 = '78' THEN '0661'
-WHEN Column02 = '79' THEN '0675'
-WHEN Column02 = '80' THEN '0676'
-WHEN Column02 = '81' THEN '0677'
-WHEN Column02 = '82' THEN '0678'
-ELSE Column02
+CASE WHEN lve.Column02 = '10' THEN '0100'
+WHEN lve.Column02 = '12' THEN '0120'
+WHEN lve.Column02 = '22' THEN '0203'
+WHEN lve.Column02 = '24' THEN '0205'
+WHEN lve.Column02 = '25' THEN '0200'
+WHEN lve.Column02 = '26' THEN '0203'
+WHEN lve.Column02 = '50' THEN '0501'
+WHEN lve.Column02 = '51' THEN '0500'
+WHEN lve.Column02 = '57' THEN '0685'
+WHEN lve.Column02 = '73' THEN '0602'
+WHEN lve.Column02 = '74' THEN '0650'
+WHEN lve.Column02 = '75' THEN '0634'
+WHEN lve.Column02 = '76' THEN '0662'
+WHEN lve.Column02 = '77' THEN '0315'
+WHEN lve.Column02 = '78' THEN '0661'
+WHEN lve.Column02 = '79' THEN '0675'
+WHEN lve.Column02 = '80' THEN '0676'
+WHEN lve.Column02 = '81' THEN '0677'
+WHEN lve.Column02 = '82' THEN '0678'
+ELSE lve.Column02
 END AS leave_type,
-dbo.check_valid_date(Column03, 'N') AS day_date,
-Column05 AS entitlement,
-Column04 AS pro_rata,
-Column06 AS pro_rata_taken,
-dbo.check_valid_date(CASE WHEN Column07 LIKE '00/00/%' THEN '01/01/1900' ELSE Column07 END, 'N') AS anniversary_date
-FROM gi_rosteronlve lve LEFT OUTER JOIN shift s ON s.payroll_ref = lve.Column02 
-LEFT OUTER JOIN leave_attribute la ON la.shift_id = s.shift_id
-LEFT OUTER JOIN leave_attribute_type lat ON lat.leave_attribute_type_id = la.leave_attribute_type_id AND lat.leave_attribute_type_code = 'IMPEXCL'
-WHERE Column02 IN ('10', '12', '22', '24', '25', '26', '50', '51', '57', '73', '74', '75', '76', '77', '78', '79', '80', '81', '82')
-AND s.payroll_ref IS NOT NULL
+dbo.check_valid_date(lve.Column03,'N') AS day_date,
+lve.Column05 AS entitlement,
+lve.Column04 AS pro_rata,
+lve.Column06 AS pro_rata_taken,
+dbo.check_valid_date(CASE WHEN lve.Column07 LIKE '00/00/%' THEN '01/01/1900' ELSE lve.Column07 END,'N') AS anniversary_date
+FROM gi_ROSTERONLVE lve LEFT OUTER JOIN shift s ON s.payroll_ref IN(CASE WHEN lve.Column02 = '10' THEN '0100'
+WHEN lve.Column02 = '12' THEN '0120'
+WHEN lve.Column02 = '22' THEN '0203'
+WHEN lve.Column02 = '24' THEN '0205'
+WHEN lve.Column02 = '25' THEN '0200'
+WHEN lve.Column02 = '26' THEN '0203'
+WHEN lve.Column02 = '50' THEN '0501'
+WHEN lve.Column02 = '51' THEN '0500'
+WHEN lve.Column02 = '57' THEN '0685'
+WHEN lve.Column02 = '73' THEN '0602'
+WHEN lve.Column02 = '74' THEN '0650'
+WHEN lve.Column02 = '75' THEN '0634'
+WHEN lve.Column02 = '76' THEN '0662'
+WHEN lve.Column02 = '77' THEN '0315'
+WHEN lve.Column02 = '78' THEN '0661'
+WHEN lve.Column02 = '79' THEN '0675'
+WHEN lve.Column02 = '80' THEN '0676'
+WHEN lve.Column02 = '81' THEN '0677'
+WHEN lve.Column02 = '82' THEN '0678'
+END)
+LEFT OUTER JOIN leave_attribute la ON (la.shift_id = s.shift_id AND la.leave_attribute_type_id = 17)
+LEFT OUTER JOIN leave_attribute_type lat ON (lat.leave_attribute_type_id = la.leave_attribute_type_id 
+AND lat.leave_attribute_type_code = 'IMPEXCL')
+WHERE lve.Column02 IN ('10','12','22','24','25','26','50','51','57','73','74','75','76','77',
+'78','79','80','81','82')
+AND s.payroll_ref IN ('0100','0120','0203','0205','0200','0203','0501','0500','0685','0602',
+'0650','0634','0662','0315','0661','0675','0676','0677','0678')
+AND (lat.leave_attribute_type_code IS NULL OR (lat.leave_attribute_type_code IS NOT NULL AND la.value = 'N'))
 UNION ALL
 SELECT 'import_EMPBA' AS record_key,
 '1' AS record_no,
-CASE WHEN ISNUMERIC(Column01) = 1 THEN CAST(CAST(Column01 AS decimal(20)) AS varchar(150)) 
-ELSE SUBSTRING(Column01, PATINDEX('%[^0]%', Column01), 150) 
+CASE WHEN ISNUMERIC(lve.Column01) = 1 THEN CAST(CAST(lve.Column01 AS decimal(20)) AS varchar(150)) 
+ELSE SUBSTRING(lve.Column01,PATINDEX('%[^0]%',lve.Column01),150) 
 END AS emp_no,
 '0400' AS leave_type,
-dbo.check_valid_date(Column03, 'N') AS day_date,
-SUM(CASE WHEN ISNUMERIC(Column05) &lt;&gt; 1 THEN 0 ELSE CAST(Column05 AS numeric(30,5)) END) AS entitlement,
-SUM(CASE WHEN ISNUMERIC(Column04) &lt;&gt; 1 THEN 0 ELSE CAST(Column04 AS numeric(30,5)) END) AS pro_rata,
-SUM(CASE WHEN ISNUMERIC(Column06) &lt;&gt; 1 THEN 0 ELSE CAST(Column06 AS numeric(30,5)) END) AS pro_rata_taken,
-MAX(dbo.check_valid_date(CASE WHEN Column07 LIKE '00/00/%' THEN '01/01/1900' ELSE Column07 END, 'N')) AS anniversary_date
-FROM gi_rosteronlve lve LEFT OUTER JOIN shift s ON s.payroll_ref = lve.Column02 
-LEFT OUTER JOIN leave_attribute la ON la.shift_id = s.shift_id
-LEFT OUTER JOIN leave_attribute_type lat ON lat.leave_attribute_type_id = la.leave_attribute_type_id AND lat.leave_attribute_type_code = 'IMPEXCL'
-WHERE Column02 IN ('40', '41', '42')
-AND s.payroll_ref IS NOT NULL
-GROUP BY Column01,
-dbo.check_valid_date(Column03, 'N')
+dbo.check_valid_date(lve.Column03,'N') AS day_date,
+SUM(CASE WHEN ISNUMERIC(lve.Column05) &lt;&gt; 1 THEN 0 ELSE CAST(lve.Column05 AS numeric(30,5)) END) AS entitlement,
+SUM(CASE WHEN ISNUMERIC(lve.Column04) &lt;&gt; 1 THEN 0 ELSE CAST(lve.Column04 AS numeric(30,5)) END) AS pro_rata,
+SUM(CASE WHEN ISNUMERIC(lve.Column06) &lt;&gt; 1 THEN 0 ELSE CAST(lve.Column06 AS numeric(30,5)) END) AS pro_rata_taken,
+MAX(dbo.check_valid_date(CASE WHEN lve.Column07 LIKE '00/00/%' THEN '01/01/1900' ELSE lve.Column07 END,'N')) AS anniversary_date
+FROM gi_ROSTERONLVE lve LEFT OUTER JOIN shift s ON s.payroll_ref IN(CASE WHEN lve.Column02 = '40' THEN '0400'
+WHEN lve.Column02 = '41' THEN '0400'
+WHEN lve.Column02 = '42' THEN '0400'
+END)
+LEFT OUTER JOIN leave_attribute la ON (la.shift_id = s.shift_id AND la.leave_attribute_type_id = 17)
+LEFT OUTER JOIN leave_attribute_type lat ON (lat.leave_attribute_type_id = la.leave_attribute_type_id 
+AND lat.leave_attribute_type_code = 'IMPEXCL')
+WHERE lve.Column02 IN ('40','41','42')
+AND s.payroll_ref = '0400'
+AND (lat.leave_attribute_type_code IS NULL OR (lat.leave_attribute_type_code IS NOT NULL AND la.value = 'N'))
+GROUP BY lve.Column01,
+dbo.check_valid_date(lve.Column03,'N')
 UNION ALL
 SELECT 'import_EMPBA' AS record_key,
 '1' AS record_no,
-CASE WHEN ISNUMERIC(Column01) = 1 THEN CAST(CAST(Column01 AS decimal(20)) AS varchar(150)) 
-ELSE SUBSTRING(Column01, PATINDEX('%[^0]%', Column01), 150) 
+CASE WHEN ISNUMERIC(lve.Column01) = 1 THEN CAST(CAST(lve.Column01 AS decimal(20)) AS varchar(150)) 
+ELSE SUBSTRING(lve.Column01,PATINDEX('%[^0]%',lve.Column01),150) 
 END AS emp_no,
 '0206' AS leave_type,
-dbo.check_valid_date(Column03, 'N') AS day_date,
-SUM(CASE WHEN ISNUMERIC(Column05) &lt;&gt; 1 THEN 0 ELSE CAST(Column05 AS numeric(30,5)) END) AS entitlement,
-SUM(CASE WHEN ISNUMERIC(Column04) &lt;&gt; 1 THEN 0 ELSE CAST(Column04 AS numeric(30,5)) END) AS pro_rata,
-SUM(CASE WHEN ISNUMERIC(Column06) &lt;&gt; 1 THEN 0 ELSE CAST(Column06 AS numeric(30,5)) END) AS pro_rata_taken,
-MAX(dbo.check_valid_date(CASE WHEN Column07 LIKE '00/00/%' THEN '01/01/1900' ELSE Column07 END, 'N')) AS anniversary_date
-FROM gi_rosteronlve lve LEFT OUTER JOIN shift s ON s.payroll_ref = lve.Column02 
-LEFT OUTER JOIN leave_attribute la ON la.shift_id = s.shift_id
-LEFT OUTER JOIN leave_attribute_type lat ON lat.leave_attribute_type_id = la.leave_attribute_type_id AND lat.leave_attribute_type_code = 'IMPEXCL'
-WHERE Column02 IN ('23', '72')
-AND s.payroll_ref IS NOT NULL
-GROUP BY Column01,
-dbo.check_valid_date(Column03, 'N')
+dbo.check_valid_date(lve.Column03,'N') AS day_date,
+SUM(CASE WHEN ISNUMERIC(lve.Column05) &lt;&gt; 1 THEN 0 ELSE CAST(lve.Column05 AS numeric(30,5)) END) AS entitlement,
+SUM(CASE WHEN ISNUMERIC(lve.Column04) &lt;&gt; 1 THEN 0 ELSE CAST(lve.Column04 AS numeric(30,5)) END) AS pro_rata,
+SUM(CASE WHEN ISNUMERIC(lve.Column06) &lt;&gt; 1 THEN 0 ELSE CAST(lve.Column06 AS numeric(30,5)) END) AS pro_rata_taken,
+MAX(dbo.check_valid_date(CASE WHEN lve.Column07 LIKE '00/00/%' THEN '01/01/1900' ELSE lve.Column07 END,'N')) AS anniversary_date
+FROM gi_ROSTERONLVE lve LEFT OUTER JOIN shift s ON s.payroll_ref IN(CASE WHEN lve.Column02 = '23' THEN '0206'
+WHEN lve.Column02 = '72' THEN '0206'
+END)
+LEFT OUTER JOIN leave_attribute la ON (la.shift_id = s.shift_id AND la.leave_attribute_type_id = 17)
+LEFT OUTER JOIN leave_attribute_type lat ON (lat.leave_attribute_type_id = la.leave_attribute_type_id 
+AND lat.leave_attribute_type_code = 'IMPEXCL')
+WHERE lve.Column02 IN ('23','72')
+AND s.payroll_ref = '0206'
+AND (lat.leave_attribute_type_code IS NULL OR (lat.leave_attribute_type_code IS NOT NULL AND la.value = 'N'))
+GROUP BY lve.Column01,
+dbo.check_valid_date(lve.Column03,'N')
 UNION ALL
 SELECT 'import_EMPBA' AS record_key,
 '1' AS record_no,
-CASE WHEN ISNUMERIC(Column01) = 1 THEN CAST(CAST(Column01 AS decimal(20)) AS varchar(150)) 
-ELSE SUBSTRING(Column01, PATINDEX('%[^0]%', Column01), 150) 
+CASE WHEN ISNUMERIC(lve.Column01) = 1 THEN CAST(CAST(lve.Column01 AS decimal(20)) AS varchar(150)) 
+ELSE SUBSTRING(lve.Column01,PATINDEX('%[^0]%',lve.Column01),150) 
 END AS emp_no,
 '0607' AS leave_type,
-dbo.check_valid_date(Column03, 'N') AS day_date,
-SUM(CASE WHEN ISNUMERIC(Column05) &lt;&gt; 1 THEN 0 ELSE CAST(Column05 AS numeric(30,5)) END) AS entitlement,
-SUM(CASE WHEN ISNUMERIC(Column04) &lt;&gt; 1 THEN 0 ELSE CAST(Column04 AS numeric(30,5)) END) AS pro_rata,
-SUM(CASE WHEN ISNUMERIC(Column06) &lt;&gt; 1 THEN 0 ELSE CAST(Column06 AS numeric(30,5)) END) AS pro_rata_taken,
-MAX(dbo.check_valid_date(CASE WHEN Column07 LIKE '00/00/%' THEN '01/01/1900' ELSE Column07 END, 'N')) AS anniversary_date
-FROM gi_rosteronlve lve LEFT OUTER JOIN shift s ON s.payroll_ref = lve.Column02 
-LEFT OUTER JOIN leave_attribute la ON la.shift_id = s.shift_id
-LEFT OUTER JOIN leave_attribute_type lat ON lat.leave_attribute_type_id = la.leave_attribute_type_id AND lat.leave_attribute_type_code = 'IMPEXCL'
-WHERE Column02 IN ('62', '69')
-AND s.payroll_ref IS NOT NULL
-GROUP BY Column01,
-dbo.check_valid_date(Column03, 'N')</CommandText>
+dbo.check_valid_date(lve.Column03,'N') AS day_date,
+SUM(CASE WHEN ISNUMERIC(lve.Column05) &lt;&gt; 1 THEN 0 ELSE CAST(lve.Column05 AS numeric(30,5)) END) AS entitlement,
+SUM(CASE WHEN ISNUMERIC(lve.Column04) &lt;&gt; 1 THEN 0 ELSE CAST(lve.Column04 AS numeric(30,5)) END) AS pro_rata,
+SUM(CASE WHEN ISNUMERIC(lve.Column06) &lt;&gt; 1 THEN 0 ELSE CAST(lve.Column06 AS numeric(30,5)) END) AS pro_rata_taken,
+MAX(dbo.check_valid_date(CASE WHEN lve.Column07 LIKE '00/00/%' THEN '01/01/1900' ELSE lve.Column07 END,'N')) AS anniversary_date
+FROM gi_ROSTERONLVE lve LEFT OUTER JOIN shift s ON s.payroll_ref IN(CASE WHEN lve.Column02 = '62' THEN '0607'
+WHEN lve.Column02 = '69' THEN '0607'
+END)
+LEFT OUTER JOIN leave_attribute la ON (la.shift_id = s.shift_id AND la.leave_attribute_type_id = 17)
+LEFT OUTER JOIN leave_attribute_type lat ON (lat.leave_attribute_type_id = la.leave_attribute_type_id 
+AND lat.leave_attribute_type_code = 'IMPEXCL')
+WHERE lve.Column02 IN ('62','69')
+AND s.payroll_ref = '0607'
+AND (lat.leave_attribute_type_code IS NULL OR (lat.leave_attribute_type_code IS NOT NULL AND la.value = 'N'))
+GROUP BY lve.Column01,
+dbo.check_valid_date(lve.Column03,'N')</CommandText>
       </Query>
       <Fields>
         <Field Name="record_key">
