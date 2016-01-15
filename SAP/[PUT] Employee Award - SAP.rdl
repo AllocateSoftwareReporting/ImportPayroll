@@ -814,24 +814,18 @@ ELSE SUBSTRING(ro.Column01, PATINDEX('%[^0]%', ro.Column01), 150) END AS emp_no,
 ro.Column30 AS eff_from_date,
 CASE WHEN dbo.check_valid_date(CASE WHEN ro.Column06 = '00/00/0000' THEN '01/01/2049' ELSE ro.Column06 END, 'N') &lt; dbo.check_valid_date(CASE WHEN ro.Column11 = '31/12/9999' THEN '01/01/2049' ELSE ro.Column11 END, 'N') THEN ro.Column06
 ELSE ro.Column11 END AS eff_to_date,
-CASE WHEN et.Column03 IS NOT NULL THEN et.Column03 WHEN ro.Column12 IN('CS', 'CB') THEN 'C' ELSE ro.Column12 END AS employment_type,
+CASE WHEN ro.Column12 IN('CS', 'CB') THEN 'C' ELSE ro.Column12 END AS employment_type,
 CASE WHEN ISNUMERIC(ro.Column13) = 1 THEN CAST(CAST(ro.Column13 AS decimal(20)) AS varchar(150))
 ELSE SUBSTRING(ro.Column13, PATINDEX('%[^0]%', ro.Column13), 150) END AS award,
 ro.Column14 + ro.Column15 AS award_classification,
-CASE WHEN epr.Column03 IS NOT NULL THEN epr.Column03 ELSE ro.Column16 END AS emp_payroll_run,
+ro.Column16 AS emp_payroll_run,
 CASE WHEN CASE WHEN ISNUMERIC(ro.Column19) &lt;&gt; 1 THEN CAST(0.0 AS numeric(30,2)) ELSE CAST(ro.Column19 AS numeric(30,2)) END = 0.00 THEN 'N'
 ELSE 'Y' END AS above_award_rate_flg,
 ro.Column19 AS rate
-FROM gi_ROSTERONEMP ro LEFT OUTER JOIN gi_emp_award_emp_types et ON et.Column02 = CASE WHEN ISNUMERIC(ro.Column01) = 1 THEN CAST(CAST(ro.Column01 AS decimal(20)) AS varchar(150)) 
-ELSE SUBSTRING(ro.Column01, PATINDEX('%[^0]%', ro.Column01), 150) END AND dbo.check_valid_date(ro.Column10, 'Y') BETWEEN dbo.check_valid_date(et.Column04, 'Y') AND dbo.check_valid_date(et.Column05, 'N')
-LEFT OUTER JOIN gi_emp_award_payroll_runs epr ON epr.Column02 = CASE WHEN ISNUMERIC(ro.Column01) = 1 THEN CAST(CAST(ro.Column01 AS decimal(20)) AS varchar(150)) 
-ELSE SUBSTRING(ro.Column01, PATINDEX('%[^0]%', epr.Column01), 150) END AND dbo.check_valid_date(ro.Column10, 'Y') BETWEEN dbo.check_valid_date(epr.Column04, 'Y') AND dbo.check_valid_date(epr.Column05, 'N')
+FROM gi_ROSTERONEMP ro
 WHERE (ro.Column30 IS NOT NULL OR ro.Column30 != '')
 AND (ro.Column11 IS NOT NULL OR ro.Column11 != '')
 AND dbo.check_valid_date(ro.Column10, 'Y') &lt; dbo.check_valid_date(ro.Column30, 'Y')
-AND CASE WHEN dbo.check_valid_date(CASE WHEN ro.Column06 = '00/00/0000' THEN '01/01/2049' ELSE ro.Column06 END, 'N') &lt; dbo.check_valid_date(CASE WHEN ro.Column11 = '31/12/9999' THEN '01/01/2049' ELSE ro.Column11 END, 'N') 
-THEN dbo.check_valid_date(CASE WHEN ro.Column06 = '00/00/0000' THEN '01/01/2049' ELSE ro.Column06 END, 'N') 
-ELSE dbo.check_valid_date(CASE WHEN ro.Column11 = '31/12/9999' THEN '01/01/2049' ELSE ro.Column11 END, 'N') END &gt; dbo.check_valid_date(ro.Column30, 'Y')
 UNION ALL
 SELECT DISTINCT 'import_EMPAW' AS record_key,
 '1' AS record_no,
@@ -840,24 +834,18 @@ ELSE SUBSTRING(ro.Column01, PATINDEX('%[^0]%', ro.Column01), 150) END AS emp_no,
 ro.Column10 AS eff_from_date,
 CASE WHEN dbo.check_valid_date(CASE WHEN ro.Column06 = '00/00/0000' THEN '01/01/2049' ELSE ro.Column06 END, 'N') &lt; dbo.check_valid_date(CASE WHEN ro.Column11 = '31/12/9999' THEN '01/01/2049' ELSE ro.Column11 END, 'N') THEN ro.Column06
 ELSE ro.Column11 END AS eff_to_date,
-CASE WHEN et.Column03 IS NOT NULL THEN et.Column03 WHEN ro.Column12 IN('CS', 'CB') THEN 'C' ELSE ro.Column12 END AS employment_type,
+CASE WHEN ro.Column12 IN('CS', 'CB') THEN 'C' ELSE ro.Column12 END AS employment_type,
 CASE WHEN ISNUMERIC(ro.Column13) = 1 THEN CAST(CAST(ro.Column13 AS decimal(20)) AS varchar(150))
 ELSE SUBSTRING(ro.Column13, PATINDEX('%[^0]%', ro.Column13), 150) END AS award,
 ro.Column14 + ro.Column15 AS award_classification,
-CASE WHEN epr.Column03 IS NOT NULL THEN epr.Column03 ELSE ro.Column16 END AS emp_payroll_run,
+ro.Column16 AS emp_payroll_run,
 CASE WHEN CASE WHEN ISNUMERIC(ro.Column19) &lt;&gt; 1 THEN CAST(0.0 AS numeric(30,2)) ELSE CAST(ro.Column19 AS numeric(30,2)) END = 0.00 THEN 'N'
 ELSE 'Y' END AS above_award_rate_flg,
 ro.Column19 AS rate
-FROM gi_ROSTERONEMP ro LEFT OUTER JOIN gi_emp_award_emp_types et ON et.Column02 = CASE WHEN ISNUMERIC(ro.Column01) = 1 THEN CAST(CAST(ro.Column01 AS decimal(20)) AS varchar(150)) 
-ELSE SUBSTRING(ro.Column01, PATINDEX('%[^0]%', ro.Column01), 150) END AND dbo.check_valid_date(ro.Column10, 'Y') BETWEEN dbo.check_valid_date(et.Column04, 'Y') AND dbo.check_valid_date(et.Column05, 'N')
-LEFT OUTER JOIN gi_emp_award_payroll_runs epr ON epr.Column02 = CASE WHEN ISNUMERIC(ro.Column01) = 1 THEN CAST(CAST(ro.Column01 AS decimal(20)) AS varchar(150)) 
-ELSE SUBSTRING(ro.Column01, PATINDEX('%[^0]%', epr.Column01), 150) END AND dbo.check_valid_date(ro.Column10, 'Y') BETWEEN dbo.check_valid_date(epr.Column04, 'Y') AND dbo.check_valid_date(epr.Column05, 'N')
+FROM gi_ROSTERONEMP ro
 WHERE (ro.Column10 IS NOT NULL OR ro.Column10 != '')
 AND (ro.Column11 IS NOT NULL OR ro.Column11 != '')
-AND dbo.check_valid_date(Column10, 'Y') &gt;= dbo.check_valid_date(Column30, 'Y')
-AND CASE WHEN dbo.check_valid_date(CASE WHEN ro.Column06 = '00/00/0000' THEN '01/01/2049' ELSE ro.Column06 END, 'N') &lt; dbo.check_valid_date(CASE WHEN ro.Column11 = '31/12/9999' THEN '01/01/2049' ELSE ro.Column11 END, 'N') 
-THEN dbo.check_valid_date(CASE WHEN ro.Column06 = '00/00/0000' THEN '01/01/2049' ELSE ro.Column06 END, 'N') 
-ELSE dbo.check_valid_date(CASE WHEN ro.Column11 = '31/12/9999' THEN '01/01/2049' ELSE ro.Column11 END, 'N') END &gt; dbo.check_valid_date(ro.Column10, 'Y')</CommandText>
+AND dbo.check_valid_date(Column10, 'Y') &gt;= dbo.check_valid_date(Column30, 'Y')</CommandText>
       </Query>
       <Fields>
         <Field Name="record_no">
