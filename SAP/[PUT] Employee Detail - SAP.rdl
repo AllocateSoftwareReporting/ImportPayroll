@@ -64,7 +64,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>record key</Value>
+                              <Value>import_EMPDE</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
@@ -1027,6 +1027,7 @@
       <ConnectionProperties>
         <DataProvider>SQL</DataProvider>
         <ConnectString>Data Source=MEL-DNF162S;Initial Catalog=NorthenHealth</ConnectString>
+        <Prompt>Specify a user name and password for data source DataSource1:</Prompt>
       </ConnectionProperties>
       <rd:SecurityType>DataBase</rd:SecurityType>
       <rd:DataSourceID>82efc134-4b1f-401c-8169-72f9a48fcc2c</rd:DataSourceID>
