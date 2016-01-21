@@ -593,14 +593,18 @@
     <DataSet Name="DataSet1">
       <Query>
         <DataSourceName>DataSource1</DataSourceName>
-        <CommandText>Select 'import_EMPCC' as record_key,1 as record_no,
-CASE WHEN isnumeric(giroemp.Column01) = 1 THEN cast(cast(giroemp.Column01 AS decimal(20)) AS Varchar(150)) ELSE substring(giroemp.Column01, patindex('%[^0]%', giroemp.Column01), 150) END as emp_no,giroemp.Column18 as company_code,giroemp.Column17 as cost_center ,
-giroemp.Column30 as eff_from_date ,CASE WHEN giroemp.Column31= '31/12/9999' THEN '01/01/2049' ELSE giroemp.Column31 END  as eff_to_date,1.0 as percentage
-from gi_ROSTERONEMP giroemp 
-where giroemp.Column31 &gt; giroemp.Column30
-AND	giroemp.Column17 &lt;&gt; ''
+        <CommandText>SELECT DISTINCT 'import_EMPCC' as record_key,
+1 as record_no,
+CASE WHEN isnumeric(giroemp.Column01) = 1 THEN cast(cast(giroemp.Column01 AS decimal(20)) AS Varchar(150)) ELSE substring(giroemp.Column01, patindex('%[^0]%', giroemp.Column01), 150) END as emp_no,giroemp.Column18 as company_code,
+giroemp.Column17 as cost_center,
+dbo.check_valid_date(giroemp.Column30, 'Y') as eff_from_date, 
+CASE WHEN giroemp.Column31= '31/12/9999' THEN '01/01/2049' ELSE dbo.check_valid_date(giroemp.Column31, 'N') END as eff_to_date,
+CAST(1.0 AS numeric(30,5)) as percentage
+FROM gi_ROSTERONEMP giroemp 
+WHERE giroemp.Column17 &lt;&gt; ''
 AND giroemp.Column30 Is Not Null
-AND giroemp.Column31 Is Not Null</CommandText>
+AND giroemp.Column31 Is Not Null
+AND dbo.check_valid_date(CASE WHEN giroemp.Column31= '31/12/9999' THEN '01/01/2049' ELSE giroemp.Column31 END, 'N') &gt;= dbo.check_valid_date(Column30, 'Y')</CommandText>
       </Query>
       <Fields>
         <Field Name="record_key">
@@ -625,11 +629,11 @@ AND giroemp.Column31 Is Not Null</CommandText>
         </Field>
         <Field Name="eff_from_date">
           <DataField>eff_from_date</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
+          <rd:TypeName>System.DateTime</rd:TypeName>
         </Field>
         <Field Name="eff_to_date">
           <DataField>eff_to_date</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
+          <rd:TypeName>System.DateTime</rd:TypeName>
         </Field>
         <Field Name="percentage">
           <DataField>percentage</DataField>
