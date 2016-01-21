@@ -445,7 +445,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Fields!first_name.Value</Value>
+                              <Value>=StrConv(Fields!first_name.Value, VbStrConv.ProperCase)</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
@@ -475,7 +475,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Fields!surname.Value</Value>
+                              <Value>=StrConv(Fields!surname.Value, VbStrConv.ProperCase)</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
@@ -498,21 +498,21 @@
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="known_as">
+                    <Textbox Name="known_as_ro">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Fields!known_as.Value</Value>
+                              <Value>=StrConv(iif(len(Fields!known_as_ro.Value) &gt; 0,Fields!known_as_ro.Value, Fields!known_as.Value), VbStrConv.ProperCase)</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
                           <Style />
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>known_as</rd:DefaultName>
+                      <rd:DefaultName>known_as_ro</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -662,53 +662,24 @@
     <DataSet Name="import_EMPMA">
       <Query>
         <DataSourceName>DataSource1</DataSourceName>
-        <CommandText>SELECT DISTINCT 
-                         'import_EMPMA' AS 'record_key', 1 AS 'record_no', CASE WHEN ISNUMERIC(v.Column01) = 1 THEN CAST(CAST(v.Column01 AS decimal(20)) AS Varchar(150)) 
-                         ELSE SUBSTRING(v.Column01, PATINDEX('%[^0]%', v.Column01), 150) END AS 'emp_no', ISNULL(tt.payroll_ref, v.Column02) AS 'title_type_ref', 
-                         CASE WHEN v.Column03 LIKE '%-%' THEN Stuff(SUBSTRING(UPPER(v.Column03), 1, 1) + SUBSTRING(LOWER(v.Column03), 2, 150), CharIndex('-', 
-                         SUBSTRING(UPPER(v.Column03), 1, 1) + SUBSTRING(LOWER(v.Column03), 2, 150)) + 1, 1, Upper(Substring(SUBSTRING(UPPER(v.Column03), 1, 1) 
-                         + SUBSTRING(LOWER(v.Column03), 2, 150), CharIndex('-', SUBSTRING(UPPER(v.Column03), 1, 1) + SUBSTRING(LOWER(v.Column03), 2, 150)) + 1, 1))) 
-                         WHEN v.Column03 LIKE '%''%' THEN Stuff(SUBSTRING(UPPER(v.Column03), 1, 1) + SUBSTRING(LOWER(v.Column03), 2, 150), CharIndex('''', 
-                         SUBSTRING(UPPER(v.Column03), 1, 1) + SUBSTRING(LOWER(v.Column03), 2, 150)) + 1, 1, Upper(Substring(SUBSTRING(UPPER(v.Column03), 1, 1) 
-                         + SUBSTRING(LOWER(v.Column03), 2, 150), CharIndex('''', SUBSTRING(UPPER(v.Column03), 1, 1) + SUBSTRING(LOWER(v.Column03), 2, 150)) + 1, 1))) 
-                         ELSE SUBSTRING(UPPER(v.Column03), 1, 1) + SUBSTRING(LOWER(v.Column03), 2, 150) END AS 'first_name', 
-                         CASE WHEN v.Column04 LIKE '%-%' THEN Stuff(SUBSTRING(UPPER(v.Column04), 1, 1) + SUBSTRING(LOWER(v.Column04), 2, 150), CharIndex('-', 
-                         SUBSTRING(UPPER(v.Column04), 1, 1) + SUBSTRING(LOWER(v.Column04), 2, 150)) + 1, 1, Upper(Substring(SUBSTRING(UPPER(v.Column04), 1, 1) 
-                         + SUBSTRING(LOWER(v.Column04), 2, 150), CharIndex('-', SUBSTRING(UPPER(v.Column04), 1, 1) + SUBSTRING(LOWER(v.Column04), 2, 150)) + 1, 1))) 
-                         WHEN v.Column04 LIKE '%''%' THEN Stuff(SUBSTRING(UPPER(v.Column04), 1, 1) + SUBSTRING(LOWER(v.Column04), 2, 150), CharIndex('''', 
-                         SUBSTRING(UPPER(v.Column04), 1, 1) + SUBSTRING(LOWER(v.Column04), 2, 150)) + 1, 1, Upper(Substring(SUBSTRING(UPPER(v.Column03), 1, 1) 
-                         + SUBSTRING(LOWER(v.Column04), 2, 150), CharIndex('''', SUBSTRING(UPPER(v.Column04), 1, 1) + SUBSTRING(LOWER(v.Column04), 2, 150)) + 1, 1))) 
-                         WHEN v.Column04 LIKE '%Mc %' THEN Stuff(SUBSTRING(UPPER(v.Column04), 1, 1) + SUBSTRING(LOWER(v.Column04), 2, 150), CharIndex('Mc ', 
-                         SUBSTRING(UPPER(v.Column04), 1, 1) + SUBSTRING(LOWER(v.Column04), 2, 150)) + 3, 1, Upper(Substring(SUBSTRING(UPPER(v.Column03), 1, 1) 
-                         + SUBSTRING(LOWER(v.Column04), 2, 150), CharIndex('Mc ', SUBSTRING(UPPER(v.Column04), 1, 1) + SUBSTRING(LOWER(v.Column04), 2, 150)) + 3, 1))) 
-                         ELSE SUBSTRING(UPPER(v.Column04), 1, 1) + SUBSTRING(LOWER(v.Column04), 2, 150) END AS 'surname', CASE WHEN EXISTS
-                             (SELECT        1
-                               FROM            config_system cs
-                               WHERE        cs.config_system_type_id = 91 AND CONVERT(varchar(1), cs.config_value) = 'Y') 
-                         THEN CASE WHEN v.Column03 LIKE '%-%' THEN Stuff(SUBSTRING(UPPER(v.Column03), 1, 1) + SUBSTRING(LOWER(v.Column03), 2, 150), CharIndex('-', 
-                         SUBSTRING(UPPER(v.Column03), 1, 1) + SUBSTRING(LOWER(v.Column03), 2, 150)) + 1, 1, Upper(Substring(SUBSTRING(UPPER(v.Column03), 1, 1) 
-                         + SUBSTRING(LOWER(v.Column03), 2, 150), CharIndex('-', SUBSTRING(UPPER(v.Column03), 1, 1) + SUBSTRING(LOWER(v.Column03), 2, 150)) + 1, 1))) 
-                         WHEN v.Column03 LIKE '%''%' THEN Stuff(SUBSTRING(UPPER(v.Column03), 1, 1) + SUBSTRING(LOWER(v.Column03), 2, 150), CharIndex('''', 
-                         SUBSTRING(UPPER(v.Column03), 1, 1) + SUBSTRING(LOWER(v.Column03), 2, 150)) + 1, 1, Upper(Substring(SUBSTRING(UPPER(v.Column03), 1, 1) 
-                         + SUBSTRING(LOWER(v.Column03), 2, 150), CharIndex('''', SUBSTRING(UPPER(v.Column03), 1, 1) + SUBSTRING(LOWER(v.Column03), 2, 150)) + 1, 1))) 
-                         ELSE SUBSTRING(UPPER(v.Column03), 1, 1) + SUBSTRING(LOWER(v.Column03), 2, 150) END ELSE e.known_as END AS 'known_as', CONVERT(datetime, 
-                         v.Column05, 103) AS 'eff_from_date', CONVERT(datetime, CASE WHEN v.Column06 = '00/00/0000' THEN '01/01/2049' ELSE v.Column06 END, 103) 
-                         AS 'eff_to_date'
-FROM            gi_ROSTERONEMP AS v LEFT OUTER JOIN
-                         title_type AS tt ON v.Column02 = tt.payroll_ref COLLATE DATABASE_DEFAULT LEFT OUTER JOIN
-                         emp AS e ON v.Column01 = e.emp_no COLLATE DATABASE_DEFAULT</CommandText>
+        <CommandText>SELECT        'import_EMPMA' AS record_key, 1 AS record_no, gi_ROSTERONEMP.Column01 AS 'emp_no', gi_ROSTERONEMP.Column02 AS 'title_type_ref', 
+                         gi_ROSTERONEMP.Column03 AS 'first_name', gi_ROSTERONEMP.Column04 AS 'surname', gi_ROSTERONEMP.Column03 AS 'known_as', 
+                         emp.known_as AS 'known_as_ro', CONVERT(datetime, gi_ROSTERONEMP.Column05, 103) AS 'eff_from_date', CONVERT(datetime, 
+                         CASE WHEN Column06 = '00/00/0000' THEN '01/01/2049' ELSE Column06 END, 103) AS 'eff_to_date'
+FROM            gi_ROSTERONEMP LEFT OUTER JOIN
+                         emp ON gi_ROSTERONEMP.Column01 = emp.emp_no COLLATE DATABASE_DEFAULT</CommandText>
       </Query>
       <Fields>
-        <Field Name="record_key">
-          <DataField>record_key</DataField>
+        <Field Name="emp_no">
+          <DataField>emp_no</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="record_no">
           <DataField>record_no</DataField>
           <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
-        <Field Name="emp_no">
-          <DataField>emp_no</DataField>
+        <Field Name="record_key">
+          <DataField>record_key</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="title_type_ref">
@@ -730,6 +701,10 @@ FROM            gi_ROSTERONEMP AS v LEFT OUTER JOIN
         <Field Name="eff_from_date">
           <DataField>eff_from_date</DataField>
           <rd:TypeName>System.DateTime</rd:TypeName>
+        </Field>
+        <Field Name="known_as_ro">
+          <DataField>known_as_ro</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="eff_to_date">
           <DataField>eff_to_date</DataField>
