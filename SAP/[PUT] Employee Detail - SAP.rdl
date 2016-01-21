@@ -726,21 +726,21 @@
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="phone_no1">
+                    <Textbox Name="phone_no2">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Fields!phone_no.Value</Value>
+                              <Value>=Fields!phone_no2.Value</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
                           <Style />
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>phone_no1</rd:DefaultName>
+                      <rd:DefaultName>phone_no2</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -1047,7 +1047,15 @@
                          v.Column21 AS 'phone_no', '' AS 'phone_no2', '' AS 'fax_no', v.Column22 AS 'mobile_no', '' AS 'email', v.Column23 AS 'street', CONVERT(varchar(150), v.Column24) 
                          AS 'suburb', ISNULL(s.payroll_ref, v.Column25) AS 'state', v.Column26 AS 'postcode'
 FROM            gi_ROSTERONEMP AS v LEFT OUTER JOIN
-                         state AS s ON v.Column25 = s.payroll_ref COLLATE DATABASE_DEFAULT</CommandText>
+                         state AS s ON v.Column25 = s.payroll_ref COLLATE DATABASE_DEFAULT
+WHERE NOT EXISTS (
+	SELECT 1 FROM emp e,
+		emp_detail ed
+	WHERE CASE WHEN ISNUMERIC(v.Column01) = 1 THEN CAST(CAST(v.Column01 AS decimal(20)) AS Varchar(150)) 
+                         ELSE SUBSTRING(v.Column01, PATINDEX('%[^0]%', v.Column01), 150) END = e.emp_no
+	AND e.emp_id = ed.emp_id
+	AND ed.upd_operator_id &lt;&gt; 1
+)</CommandText>
       </Query>
       <Fields>
         <Field Name="record_key">
