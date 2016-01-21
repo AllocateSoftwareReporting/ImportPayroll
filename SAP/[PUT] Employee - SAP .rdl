@@ -662,12 +662,12 @@
     <DataSet Name="import_EMPMA">
       <Query>
         <DataSourceName>DataSource1</DataSourceName>
-        <CommandText>SELECT        'import_EMPMA' AS record_key, 1 AS record_no, gi_ROSTERONEMP.Column01 AS 'emp_no', gi_ROSTERONEMP.Column02 AS 'title_type_ref', 
-                         gi_ROSTERONEMP.Column03 AS 'first_name', gi_ROSTERONEMP.Column04 AS 'surname', gi_ROSTERONEMP.Column03 AS 'known_as', 
-                         emp.known_as AS 'known_as_ro', CONVERT(datetime, gi_ROSTERONEMP.Column05, 103) AS 'eff_from_date', CONVERT(datetime, 
-                         CASE WHEN Column06 = '00/00/0000' THEN '01/01/2049' ELSE Column06 END, 103) AS 'eff_to_date'
+        <CommandText>SELECT        'import_EMPMA' AS record_key, 1 AS record_no, SUBSTRING(gi_ROSTERONEMP.Column01, PATINDEX('%[^0]%', gi_ROSTERONEMP.Column01), 150) AS 'emp_no', 
+                         gi_ROSTERONEMP.Column02 AS 'title_type_ref', gi_ROSTERONEMP.Column03 AS 'first_name', gi_ROSTERONEMP.Column04 AS 'surname', 
+                         gi_ROSTERONEMP.Column03 AS 'known_as', emp.known_as AS 'known_as_ro', CONVERT(datetime, gi_ROSTERONEMP.Column05, 103) AS 'eff_from_date', 
+                         CONVERT(datetime, CASE WHEN Column06 = '00/00/0000' THEN '01/01/2049' ELSE Column06 END, 103) AS 'eff_to_date'
 FROM            gi_ROSTERONEMP LEFT OUTER JOIN
-                         emp ON gi_ROSTERONEMP.Column01 = emp.emp_no COLLATE DATABASE_DEFAULT</CommandText>
+                         emp ON SUBSTRING(gi_ROSTERONEMP.Column01, PATINDEX('%[^0]%', gi_ROSTERONEMP.Column01), 150) = emp.emp_no COLLATE DATABASE_DEFAULT</CommandText>
       </Query>
       <Fields>
         <Field Name="emp_no">
