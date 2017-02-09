@@ -1,0 +1,700 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Report xmlns="http://schemas.microsoft.com/sqlserver/reporting/2008/01/reportdefinition" xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner">
+  <Body>
+    <ReportItems>
+      <Tablix Name="table1">
+        <TablixBody>
+          <TablixColumns>
+            <TablixColumn>
+              <Width>0.76667in</Width>
+            </TablixColumn>
+          </TablixColumns>
+          <TablixRows>
+            <TablixRow>
+              <Height>0.21in</Height>
+              <TablixCells>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="textbox2">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>emp no</Value>
+                              <Style />
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>textbox2</rd:DefaultName>
+                      <Style>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+              </TablixCells>
+            </TablixRow>
+            <TablixRow>
+              <Height>0.25in</Height>
+              <TablixCells>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Textbox15">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value />
+                              <Style />
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox15</rd:DefaultName>
+                      <Style>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+              </TablixCells>
+            </TablixRow>
+            <TablixRow>
+              <Height>0.25in</Height>
+              <TablixCells>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Textbox26">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value />
+                              <Style />
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox26</rd:DefaultName>
+                      <Style>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+              </TablixCells>
+            </TablixRow>
+            <TablixRow>
+              <Height>0.25in</Height>
+              <TablixCells>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Textbox38">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=SPACE(4)
++ SPACE(4)
++ Left(Fields!emp_no.Value+"       ",7)
++ SPACE(2)
++ SPACE(1)
++ SPACE(2)
++ SPACE(2)
++ SPACE(3)
++ SPACE(1)
++ Format(Fields!payroll_run_end_date.Value,"ddMMyy") 
++ SPACE(4)
++ left(IIF((Fields!allowance_code.Value.ToString like "*SIC*"),"SIC",Fields!allowance_code.Value.ToString) + "    ",4)
++ SPACE(4)
++ SPACE(4)
++ IIF(Fields!order_id.Value = 2, "000100", RIGHT("000000" &amp; CInt(ABS(SUM(IIF(Fields!sign.Value = "-", Fields!hour_value_01.Value * -1, Fields!hour_value_01.Value)) * 100)).ToString(), 6))
++ IIF(IIF(Fields!sign.Value = "-",Fields!hour_value_01.Value* -1,Fields!hour_value_01.Value) &lt; 0 ,"-","+")
++ Left(Fields!rate_str.Value+ "         ",9)
++ SPACE(20)
++ Left(Max(Fields!job_number.Value)+"                ",16)
++ IIf(Fields!leave_flg.Value = "Y" and LEN(Trim(Fields!leave_start_date_str.Value)) &gt; 0,FORMAT(Min(Fields!leave_start_date.Value), "ddMMyy"),"      ")
++ IIf(Fields!leave_flg.Value = "Y" and LEN(Trim(Fields!leave_start_date_str.Value)) &gt; 0,FORMAT(Max(Fields!leave_end_date.Value), "ddMMyy"),"      ")
++ IIF((Fields!leave_flg.Value = "Y") And (Fields!allowance_code.Value.ToString like "*SICY*"),"Y",IIF((Fields!leave_flg.Value = "Y") And (Fields!allowance_code.Value.ToString like "*SICN*"),"N"," "))
++ iif((Fields!leave_flg.Value = "Y") And (Fields!transaction_type_id.Value &lt;&gt; 1)And(Fields!transaction_category_id.Value = 1 Or Fields!transaction_category_id.Value = 7 Or Fields!transaction_category_id.Value = 8 Or Fields!transaction_category_id.Value = 1002) , RIGHT("00000" &amp; CStr(Round(Sum(Fields!leave_day.Value)*100)),5),SPACE(5))
++ SPACE(2)
++ Left(Fields!salary_award_class.Value + "      ",6)
++ SPACE(5)
++ SPACE(20)
++ Left(Max(Fields!cost_group.Value) + "  ",2)
++ SPACE(4)
++ SPACE(16)
++ SPACE(4)
++ SPACE(1)
++ SPACE(31)
++ SPACE(10)
++ SPACE(10)
++ left(Fields!area_ref.Value.ToString+Fields!role_gl_code.Value.ToString + "          ",10)
++ iif(Sum(Fields!weekend_count.Value)&gt;0,"0" + Sum(Fields!weekend_count.Value).ToString,"")</Value>
+                              <Style />
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox38</rd:DefaultName>
+                      <Style>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+              </TablixCells>
+            </TablixRow>
+            <TablixRow>
+              <Height>0.21in</Height>
+              <TablixCells>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="emp_no">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Trim(Fields!emp_no.Value)</Value>
+                              <Style />
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>emp_no</rd:DefaultName>
+                      <Style>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+              </TablixCells>
+            </TablixRow>
+          </TablixRows>
+        </TablixBody>
+        <TablixColumnHierarchy>
+          <TablixMembers>
+            <TablixMember />
+          </TablixMembers>
+        </TablixColumnHierarchy>
+        <TablixRowHierarchy>
+          <TablixMembers>
+            <TablixMember>
+              <Visibility>
+                <Hidden>true</Hidden>
+              </Visibility>
+              <KeepTogether>true</KeepTogether>
+            </TablixMember>
+            <TablixMember>
+              <Group Name="emp_no">
+                <GroupExpressions>
+                  <GroupExpression>=Fields!emp_no.Value</GroupExpression>
+                </GroupExpressions>
+              </Group>
+              <SortExpressions>
+                <SortExpression>
+                  <Value>=Fields!emp_no.Value</Value>
+                </SortExpression>
+              </SortExpressions>
+              <TablixMembers>
+                <TablixMember>
+                  <Group Name="cost_centre">
+                    <GroupExpressions>
+                      <GroupExpression>=Fields!cost_centre.Value</GroupExpression>
+                    </GroupExpressions>
+                  </Group>
+                  <SortExpressions>
+                    <SortExpression>
+                      <Value>=Fields!cost_centre.Value</Value>
+                    </SortExpression>
+                  </SortExpressions>
+                  <TablixMembers>
+                    <TablixMember>
+                      <Visibility>
+                        <Hidden>true</Hidden>
+                      </Visibility>
+                    </TablixMember>
+                    <TablixMember>
+                      <Group Name="award_classification">
+                        <GroupExpressions>
+                          <GroupExpression>=Fields!award_classification.Value</GroupExpression>
+                        </GroupExpressions>
+                      </Group>
+                      <SortExpressions>
+                        <SortExpression>
+                          <Value>=Fields!award_classification.Value</Value>
+                        </SortExpression>
+                      </SortExpressions>
+                      <TablixMembers>
+                        <TablixMember>
+                          <Visibility>
+                            <Hidden>true</Hidden>
+                          </Visibility>
+                        </TablixMember>
+                        <TablixMember>
+                          <Group Name="allowance_code">
+                            <GroupExpressions>
+                              <GroupExpression>=IIf(Fields!leave_flg.Value = "Y" and LEN(Trim(Fields!leave_start_date_str.Value)) &gt; 0,  Fields!allowance_code.Value + Fields!leave_start_date_str.Value, Fields!allowance_code.Value)</GroupExpression>
+                            </GroupExpressions>
+                          </Group>
+                          <SortExpressions>
+                            <SortExpression>
+                              <Value>=Fields!allowance_code.Value</Value>
+                            </SortExpression>
+                          </SortExpressions>
+                          <TablixMembers>
+                            <TablixMember>
+                              <KeepWithGroup>After</KeepWithGroup>
+                            </TablixMember>
+                            <TablixMember>
+                              <Group Name="table1_Details_Group">
+                                <DataElementName>Detail</DataElementName>
+                              </Group>
+                              <TablixMembers>
+                                <TablixMember />
+                              </TablixMembers>
+                              <Visibility>
+                                <Hidden>true</Hidden>
+                              </Visibility>
+                              <DataElementName>Detail_Collection</DataElementName>
+                              <DataElementOutput>Output</DataElementOutput>
+                              <KeepTogether>true</KeepTogether>
+                            </TablixMember>
+                          </TablixMembers>
+                        </TablixMember>
+                      </TablixMembers>
+                    </TablixMember>
+                  </TablixMembers>
+                </TablixMember>
+              </TablixMembers>
+            </TablixMember>
+          </TablixMembers>
+        </TablixRowHierarchy>
+        <DataSetName>DataSet1</DataSetName>
+        <Height>1.17in</Height>
+        <Width>0.76667in</Width>
+        <Style />
+      </Tablix>
+    </ReportItems>
+    <Height>1.17in</Height>
+    <Style />
+  </Body>
+  <Width>0.76667in</Width>
+  <Page>
+    <LeftMargin>1in</LeftMargin>
+    <RightMargin>1in</RightMargin>
+    <TopMargin>1in</TopMargin>
+    <BottomMargin>1in</BottomMargin>
+    <Style />
+  </Page>
+  <AutoRefresh>0</AutoRefresh>
+  <DataSources>
+    <DataSource Name="RosterOn">
+      <ConnectionProperties>
+        <DataProvider>SQL</DataProvider>
+        <ConnectString>Data Source=MEL-DEVWS01\SQL2014;Initial Catalog=RosterOn8153</ConnectString>
+      </ConnectionProperties>
+      <rd:SecurityType>DataBase</rd:SecurityType>
+      <rd:DataSourceID>de97eb53-2ebb-487c-91e9-4d8995be1639</rd:DataSourceID>
+    </DataSource>
+  </DataSources>
+  <DataSets>
+    <DataSet Name="DataSet1">
+      <Query>
+        <DataSourceName>RosterOn</DataSourceName>
+        <QueryParameters>
+          <QueryParameter Name="@payroll_system_id">
+            <Value>=Parameters!payroll_system_id.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@component_id">
+            <Value>=Parameters!component_id.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@area_id">
+            <Value>=Parameters!area_id.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@emp_payroll_run_id">
+            <Value>=Parameters!emp_payroll_run_id.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@start_date">
+            <Value>=Parameters!start_date.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@end_date">
+            <Value>=Parameters!end_date.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@extract_all_flg">
+            <Value>=Parameters!extract_all_flg.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@part_payroll_run_flg">
+            <Value>=Parameters!part_payroll_run_flg.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@reaward_flg">
+            <Value>=Parameters!reaward_flg.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@priority_pay_flg">
+            <Value>=Parameters!priority_pay_flg.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@filename">
+            <Value>=Parameters!filename.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@operator_id">
+            <Value>=Parameters!operator_id.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@session_id">
+            <Value>=Parameters!session_id.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@export_retro_flg">
+            <Value>=Parameters!export_retro_flg.Value</Value>
+          </QueryParameter>
+        </QueryParameters>
+        <CommandType>StoredProcedure</CommandType>
+        <CommandText>get_payroll_export</CommandText>
+        <rd:UseGenericDesigner>true</rd:UseGenericDesigner>
+      </Query>
+      <Fields>
+        <Field Name="order_id">
+          <DataField>order_id</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="emp_no">
+          <DataField>emp_no</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="payroll_run_start_date">
+          <DataField>payroll_run_start_date</DataField>
+          <rd:TypeName>System.DateTime</rd:TypeName>
+        </Field>
+        <Field Name="payroll_run_end_date">
+          <DataField>payroll_run_end_date</DataField>
+          <rd:TypeName>System.DateTime</rd:TypeName>
+        </Field>
+        <Field Name="leave_flg">
+          <DataField>leave_flg</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="allowance_code">
+          <DataField>allowance_code</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="cost_centre">
+          <DataField>cost_centre</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="area_ref">
+          <DataField>area_ref</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="external_ref">
+          <DataField>external_ref</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="hour_value_01">
+          <DataField>hour_value_01</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="rate">
+          <DataField>rate</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="gl_code">
+          <DataField>gl_code</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="job_number">
+          <DataField>job_number</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="leave_start_date">
+          <DataField>leave_start_date</DataField>
+          <rd:TypeName>System.DateTime</rd:TypeName>
+        </Field>
+        <Field Name="leave_end_date">
+          <DataField>leave_end_date</DataField>
+          <rd:TypeName>System.DateTime</rd:TypeName>
+        </Field>
+        <Field Name="certificate_flg">
+          <DataField>certificate_flg</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="leave_day">
+          <DataField>leave_day</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="salary_award_class">
+          <DataField>salary_award_class</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="number_of_shifts">
+          <DataField>number_of_shifts</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="cost_group">
+          <DataField>cost_group</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="weekend_count">
+          <DataField>weekend_count</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="factor">
+          <DataField>factor</DataField>
+          <rd:TypeName>System.Double</rd:TypeName>
+        </Field>
+        <Field Name="multiplier_flg">
+          <DataField>multiplier_flg</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="pay_rate">
+          <DataField>pay_rate</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="sign">
+          <DataField>sign</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="payroll_run_end_date_str">
+          <DataField>payroll_run_end_date_str</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="leave_start_date_str">
+          <DataField>leave_start_date_str</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="leave_end_date_str">
+          <DataField>leave_end_date_str</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="rate_str">
+          <DataField>rate_str</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="transaction_category_id">
+          <DataField>transaction_category_id</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="transaction_category_code">
+          <DataField>transaction_category_code</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="transaction_type_id">
+          <DataField>transaction_type_id</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="is_rate_only">
+          <DataField>is_rate_only</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="day_date">
+          <DataField>day_date</DataField>
+          <rd:TypeName>System.DateTime</rd:TypeName>
+        </Field>
+        <Field Name="transaction_type_external_ref">
+          <DataField>transaction_type_external_ref</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="day_date_crossing_midnight">
+          <DataField>day_date_crossing_midnight</DataField>
+          <rd:TypeName>System.DateTime</rd:TypeName>
+        </Field>
+        <Field Name="weekend_sunday_count">
+          <DataField>weekend_sunday_count</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="leave_attribute_type_code">
+          <DataField>leave_attribute_type_code</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="leave_attribute_value">
+          <DataField>leave_attribute_value</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="work_shift_flg">
+          <DataField>work_shift_flg</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="award_classification">
+          <DataField>award_classification</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="actual_transaction_cost">
+          <DataField>actual_transaction_cost</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="base_rate">
+          <DataField>base_rate</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="role_gl_code">
+          <DataField>role_gl_code</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="reason">
+          <DataField>reason</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+      </Fields>
+    </DataSet>
+  </DataSets>
+  <ReportParameters>
+    <ReportParameter Name="payroll_system_id">
+      <DataType>String</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>28</Value>
+        </Values>
+      </DefaultValue>
+      <Prompt>payroll system id</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="component_id">
+      <DataType>String</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>1</Value>
+        </Values>
+      </DefaultValue>
+      <Prompt>component id</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="area_id">
+      <DataType>String</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>1002</Value>
+        </Values>
+      </DefaultValue>
+      <Prompt>area id</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="emp_payroll_run_id">
+      <DataType>String</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>2</Value>
+        </Values>
+      </DefaultValue>
+      <Prompt>emp payroll run id</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="start_date">
+      <DataType>String</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>2016-11-28</Value>
+        </Values>
+      </DefaultValue>
+      <Prompt>start date</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="end_date">
+      <DataType>String</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>2016-12-11</Value>
+        </Values>
+      </DefaultValue>
+      <Prompt>end date</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="extract_all_flg">
+      <DataType>String</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>Y</Value>
+        </Values>
+      </DefaultValue>
+      <Prompt>extract all flg</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="part_payroll_run_flg">
+      <DataType>String</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>N</Value>
+        </Values>
+      </DefaultValue>
+      <Prompt>part payroll run flg</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="reaward_flg">
+      <DataType>String</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>N</Value>
+        </Values>
+      </DefaultValue>
+      <Prompt>reaward flg</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="priority_pay_flg">
+      <DataType>String</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>N</Value>
+        </Values>
+      </DefaultValue>
+      <Prompt>priority pay flg</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="filename">
+      <DataType>String</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>asdf</Value>
+        </Values>
+      </DefaultValue>
+      <Prompt>filename</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="operator_id">
+      <DataType>String</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>1</Value>
+        </Values>
+      </DefaultValue>
+      <Prompt>operator id</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="session_id">
+      <DataType>String</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>1</Value>
+        </Values>
+      </DefaultValue>
+      <Prompt>session id</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="export_retro_flg">
+      <DataType>String</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>N</Value>
+        </Values>
+      </DefaultValue>
+      <Prompt>export retro flg</Prompt>
+    </ReportParameter>
+  </ReportParameters>
+  <Language>en-US</Language>
+  <ConsumeContainerWhitespace>true</ConsumeContainerWhitespace>
+  <rd:ReportUnitType>Inch</rd:ReportUnitType>
+  <rd:ReportID>6e0ee0f5-10f8-43db-a728-e8a73c7be233</rd:ReportID>
+</Report>
